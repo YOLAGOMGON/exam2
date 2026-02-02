@@ -24,6 +24,3 @@ Carpetas:
 
 Abrir en el navegador:
 Puedes abrir los HTML directamente o con un servidor local.
-
-Diseno:
-Las pantallas se basan en las imagenes: crud1.png, crud2.png, dashboard.png, miprofile.png, createnewtask.png.
