@@ -1,78 +1,76 @@
 const user = requireAuth("user");
-if (!user) {
-  throw new Error("Sin sesion");
-}
+if (user) {
+  setupLogout();
 
-setupLogout();
+  const taskForm = document.getElementById("taskForm");
+  const taskIdInput = document.getElementById("taskId");
+  const titleInput = document.getElementById("title");
+  const descriptionInput = document.getElementById("description");
+  const categoryInput = document.getElementById("category");
+  const priorityInput = document.getElementById("priority");
+  const dueDateInput = document.getElementById("dueDate");
+  const statusInput = document.getElementById("status");
+  const cancelEditBtn = document.getElementById("cancelEditBtn");
+  const tasksBody = document.getElementById("tasksBody");
+  const emptyState = document.getElementById("emptyState");
+  const tasksCount = document.getElementById("tasksCount");
 
-const taskForm = document.getElementById("taskForm");
-const taskIdInput = document.getElementById("taskId");
-const titleInput = document.getElementById("title");
-const descriptionInput = document.getElementById("description");
-const categoryInput = document.getElementById("category");
-const priorityInput = document.getElementById("priority");
-const dueDateInput = document.getElementById("dueDate");
-const statusInput = document.getElementById("status");
-const cancelEditBtn = document.getElementById("cancelEditBtn");
-const tasksBody = document.getElementById("tasksBody");
-const emptyState = document.getElementById("emptyState");
-const tasksCount = document.getElementById("tasksCount");
+  let tasks = [];
 
-let tasks = [];
-
-function updateCount() {
-  if (!tasksCount) {
-    return;
+  function updateCount() {
+    if (!tasksCount) {
+      return;
+    }
+    tasksCount.textContent = `${tasks.length} tareas`;
   }
-  tasksCount.textContent = `${tasks.length} tareas`;
-}
 
-function resetForm() {
-  taskIdInput.value = "";
-  taskForm.reset();
-  cancelEditBtn.classList.add("d-none");
-}
+  function resetForm() {
+    taskIdInput.value = "";
+    taskForm.reset();
+    cancelEditBtn.classList.add("d-none");
+  }
 
-function formatStatus(status) {
-  if (status === "completed") return "status-completed";
-  if (status === "in progress") return "status-progress";
-  return "status-pending";
-}
+  function formatStatus(status) {
+    if (status === "completed") return "status-completed";
+    if (status === "in progress") return "status-progress";
+    return "status-pending";
+  }
 
-function renderTasks() {
-  tasksBody.innerHTML = tasks
-    .map((task) => {
-      return `<tr>
-        <td>${task.title}</td>
-        <td>
-          <span class="badge-status ${formatStatus(task.status)}">
-            ${task.status}
-          </span>
-        </td>
-        <td>${task.priority || "Medium"}</td>
-        <td>${task.dueDate || "-"}</td>
-        <td class="text-end">
-          <button class="btn btn-sm btn-outline-primary me-2" data-action="edit" data-id="${
-            task.id
-          }">Editar</button>
-          <button class="btn btn-sm btn-outline-danger" data-action="delete" data-id="${
-            task.id
-          }">Eliminar</button>
-        </td>
-      </tr>`;
-    })
-    .join("");
+  function renderTasks() {
+    tasksBody.innerHTML = tasks
+      .map((task) => {
+        return `<tr>
+          <td>${task.title}</td>
+          <td>
+            <span class="badge-status ${formatStatus(task.status)}">
+              ${task.status}
+            </span>
+          </td>
+          <td>${task.priority || "Medium"}</td>
+          <td>${task.dueDate || "-"}</td>
+          <td class="text-end">
+            <button class="btn btn-sm btn-outline-primary me-2" data-action="edit" data-id="${
+              task.id
+            }">Editar</button>
+            <button class="btn btn-sm btn-outline-danger" data-action="delete" data-id="${
+              task.id
+            }">Eliminar</button>
+          </td>
+        </tr>`;
+      })
+      .join("");
 
-  emptyState.classList.toggle("d-none", tasks.length > 0);
-  updateCount();
-}
+    emptyState.classList.toggle("d-none", tasks.length > 0);
+    updateCount();
+  }
 
-async function loadTasks() {
-  tasks = await apiGet(`/tasks?userId=${user.id}`);
-  renderTasks();
-}
+  async function loadTasks() {
+    tasks = await apiGet(`/tasks?userId=${user.id}`);
+    renderTasks();
+  }
 
-taskForm.addEventListener("submit", async (event) => {
+  if (taskForm) {
+    taskForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   const title = titleInput.value.trim();
   const description = descriptionInput.value.trim();
@@ -111,13 +109,17 @@ taskForm.addEventListener("submit", async (event) => {
 
   renderTasks();
   resetForm();
-});
+    });
+  }
 
-cancelEditBtn.addEventListener("click", () => {
-  resetForm();
-});
+  if (cancelEditBtn) {
+    cancelEditBtn.addEventListener("click", () => {
+      resetForm();
+    });
+  }
 
-tasksBody.addEventListener("click", async (event) => {
+  if (tasksBody) {
+    tasksBody.addEventListener("click", async (event) => {
   const target = event.target;
   if (!(target instanceof HTMLElement)) {
     return;
@@ -154,9 +156,11 @@ tasksBody.addEventListener("click", async (event) => {
     renderTasks();
     resetForm();
   }
-});
+    });
+  }
 
-tasksBody.addEventListener("change", async (event) => {
+  if (tasksBody) {
+    tasksBody.addEventListener("change", async (event) => {
   const target = event.target;
   if (!(target instanceof HTMLSelectElement)) {
     return;
@@ -173,7 +177,9 @@ tasksBody.addEventListener("change", async (event) => {
     status: target.value,
   });
   tasks = tasks.map((item) => (item.id === updated.id ? updated : item));
-});
+    });
+  }
 
-loadTasks();
+  loadTasks();
+}
 

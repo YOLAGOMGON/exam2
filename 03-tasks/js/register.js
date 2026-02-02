@@ -3,9 +3,9 @@ const message = document.getElementById("registerMessage");
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
-  const name = document.getElementById("name").value.trim();
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value.trim();
+  const name = document.getElementById("registerName").value.trim();
+  const email = document.getElementById("registerEmail").value.trim();
+  const password = document.getElementById("registerPassword").value.trim();
 
   try {
     const existing = await apiGet(`/users?email=${encodeURIComponent(email)}`);
@@ -25,7 +25,9 @@ form.addEventListener("submit", async (event) => {
     });
 
     saveSession(user);
-    window.location.href = "tasks.html";
+    if (typeof showView === "function") {
+      showView("tasks");
+    }
   } catch (error) {
     message.textContent = "No se pudo conectar con la API";
     message.classList.remove("d-none");

@@ -13,39 +13,35 @@ function clearSession() {
   localStorage.removeItem(SESSION_KEY);
 }
 
-function redirectByRole(user) {
-  if (!user) {
-    window.location.href = "index.html";
-    return;
-  }
-  if (user.role === "admin") {
-    window.location.href = "admin.html";
-    return;
-  }
-  window.location.href = "tasks.html";
-}
-
 function requireAuth(role) {
   const user = getSession();
   if (!user) {
-    window.location.href = "index.html";
+    if (typeof showView === "function") {
+      showView("login");
+    }
     return null;
   }
   if (role && user.role !== role) {
-    redirectByRole(user);
+    if (typeof showView === "function") {
+      showView(user.role === "admin" ? "admin" : "tasks");
+    }
     return null;
   }
   return user;
 }
 
-function setupLogout(buttonId = "logoutBtn") {
-  const btn = document.getElementById(buttonId);
-  if (!btn) {
+function setupLogout(selector = ".logout-btn") {
+  const buttons = document.querySelectorAll(selector);
+  if (buttons.length === 0) {
     return;
   }
-  btn.addEventListener("click", () => {
-    clearSession();
-    window.location.href = "index.html";
+  buttons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      clearSession();
+      if (typeof showView === "function") {
+        showView("login");
+      }
+    });
   });
 }
 

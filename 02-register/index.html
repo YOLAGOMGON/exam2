@@ -11,62 +11,136 @@
     <link rel="stylesheet" href="css/styles.css" />
   </head>
   <body>
-    <div class="auth-wrapper">
-      <div class="card auth-card">
-        <div class="text-center mb-4">
-          <div class="brand justify-content-center">
-            <span class="brand-icon"></span>
-            <span>CRUDZASO</span>
+    <section class="view active" data-view="login">
+      <div class="auth-wrapper">
+        <div class="card auth-card">
+          <div class="text-center mb-4">
+            <div class="brand justify-content-center">
+              <span class="brand-icon"></span>
+              <span>CRUDZASO</span>
+            </div>
           </div>
-        </div>
-        <h1 class="auth-title text-center mb-1">Welcome back</h1>
-        <p class="auth-subtitle text-center mb-4">
-          Enter your credentials to access the platform
-        </p>
-        <form id="loginForm">
-          <div class="mb-3">
-            <label class="form-label">Email or username</label>
-            <input
-              type="email"
-              class="form-control"
-              id="email"
-              placeholder="student@university.edu"
-              required
-            />
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Password</label>
-            <input
-              type="password"
-              class="form-control"
-              id="password"
-              placeholder="••••••••"
-              required
-            />
-          </div>
-          <div class="text-end mb-3">
-            <a href="#" class="text-primary small">Forgot password?</a>
-          </div>
-          <button class="btn btn-primary w-100 btn-pill" type="submit">
-            Sign in
+          <h1 class="auth-title text-center mb-1">Welcome back</h1>
+          <p class="auth-subtitle text-center mb-4">
+            Enter your credentials to access the platform
+          </p>
+          <form id="loginForm">
+            <div class="mb-3">
+              <label class="form-label">Email or username</label>
+              <input
+                type="email"
+                class="form-control"
+                id="loginEmail"
+                placeholder="student@university.edu"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="loginPassword"
+                placeholder="••••••••"
+                required
+              />
+            </div>
+            <div class="text-end mb-3">
+              <a href="#" class="text-primary small">Forgot password?</a>
+            </div>
+            <button class="btn btn-primary w-100 btn-pill" type="submit">
+              Sign in
+            </button>
+          </form>
+          <div id="loginMessage" class="alert alert-info mt-3 d-none"></div>
+          <button
+            class="btn btn-outline-secondary w-100 mt-2 d-none logout-btn"
+          >
+            Cerrar sesion
           </button>
-        </form>
-        <div id="loginMessage" class="alert alert-info mt-3 d-none"></div>
-        <button
-          id="logoutBtn"
-          class="btn btn-outline-secondary w-100 mt-2 d-none"
-        >
-          Cerrar sesion
-        </button>
-        <p class="text-center small mt-3 mb-0">
-          Don't have an account?
-          <a href="register.html" class="text-primary fw-semibold">Register</a>
-        </p>
+          <p class="text-center small mt-3 mb-0">
+            Don't have an account?
+            <a href="#" class="text-primary fw-semibold" data-go="register">
+              Register
+            </a>
+          </p>
+        </div>
       </div>
-    </div>
+    </section>
+
+    <section class="view" data-view="register">
+      <div class="auth-wrapper">
+        <div class="card auth-card">
+          <div class="text-center mb-4">
+            <div class="brand justify-content-center">
+              <span class="brand-icon"></span>
+              <span>CRUDZASO</span>
+            </div>
+          </div>
+          <h1 class="auth-title text-center mb-1">Create account</h1>
+          <p class="auth-subtitle text-center mb-4">
+            Join the academic performance platform today
+          </p>
+          <form id="registerForm">
+            <div class="mb-3">
+              <label class="form-label">Full Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="registerName"
+                placeholder="John Doe"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Email address</label>
+              <input
+                type="email"
+                class="form-control"
+                id="registerEmail"
+                placeholder="student@university.edu"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="registerPassword"
+                placeholder="Create a password"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Confirm Password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="registerConfirmPassword"
+                placeholder="Confirm password"
+              />
+            </div>
+            <button class="btn btn-primary w-100 btn-pill" type="submit">
+              Register
+            </button>
+          </form>
+          <div id="registerMessage" class="alert alert-info mt-3 d-none"></div>
+          <p class="text-center small mt-3 mb-0">
+            Already have an account?
+            <a href="#" class="text-primary fw-semibold" data-go="login">
+              Sign in
+            </a>
+          </p>
+        </div>
+      </div>
+    </section>
+
     <script src="js/api.js"></script>
     <script src="js/auth.js"></script>
+    <script src="js/app.js"></script>
     <script src="js/login.js"></script>
+    <script src="js/register.js"></script>
   </body>
 </html>
 

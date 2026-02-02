@@ -13,3 +13,15 @@ function clearSession() {
   localStorage.removeItem(SESSION_KEY);
 }
 
+function setupLogout(selector = ".logout-btn") {
+  const buttons = document.querySelectorAll(selector);
+  if (buttons.length === 0) {
+    return;
+  }
+  buttons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      clearSession();
+    });
+  });
+}
+

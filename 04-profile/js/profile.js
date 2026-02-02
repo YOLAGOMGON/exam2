@@ -1,6 +1,6 @@
 const user = requireAuth("user");
 if (!user) {
-  throw new Error("Sin sesion");
+  return;
 }
 
 setupLogout();

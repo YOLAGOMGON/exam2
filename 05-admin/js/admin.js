@@ -1,90 +1,88 @@
 const admin = requireAuth("admin");
-if (!admin) {
-  throw new Error("Sin sesion");
-}
+if (admin) {
+  setupLogout();
 
-setupLogout();
+  const metricTotal = document.getElementById("metricTotal");
+  const metricPending = document.getElementById("metricPending");
+  const metricProgress = document.getElementById("metricProgress");
+  const metricCompleted = document.getElementById("metricCompleted");
 
-const metricTotal = document.getElementById("metricTotal");
-const metricPending = document.getElementById("metricPending");
-const metricProgress = document.getElementById("metricProgress");
-const metricCompleted = document.getElementById("metricCompleted");
+  const adminForm = document.getElementById("adminForm");
+  const taskIdInput = document.getElementById("adminTaskId");
+  const titleInput = document.getElementById("adminTitle");
+  const descriptionInput = document.getElementById("adminDescription");
+  const statusInput = document.getElementById("adminStatus");
+  const cancelEditBtn = document.getElementById("adminCancelEditBtn");
+  const tasksBody = document.getElementById("adminTasksBody");
+  const emptyState = document.getElementById("adminEmptyState");
 
-const adminForm = document.getElementById("adminForm");
-const taskIdInput = document.getElementById("taskId");
-const titleInput = document.getElementById("title");
-const descriptionInput = document.getElementById("description");
-const statusInput = document.getElementById("status");
-const cancelEditBtn = document.getElementById("cancelEditBtn");
-const tasksBody = document.getElementById("tasksBody");
-const emptyState = document.getElementById("emptyState");
+  let tasks = [];
+  let users = [];
 
-let tasks = [];
-let users = [];
+  function getUserName(userId) {
+    const user = users.find((item) => item.id === userId);
+    return user ? user.name : `User ${userId}`;
+  }
 
-function getUserName(userId) {
-  const user = users.find((item) => item.id === userId);
-  return user ? user.name : `User ${userId}`;
-}
+  function renderMetrics() {
+    const total = tasks.length;
+    const completed = tasks.filter((task) => task.status === "completed").length;
+    const pending = tasks.filter((task) => task.status === "pending").length;
+    const progress = total > 0 ? Math.round((completed / total) * 100) : 0;
 
-function renderMetrics() {
-  const total = tasks.length;
-  const completed = tasks.filter((task) => task.status === "completed").length;
-  const pending = tasks.filter((task) => task.status === "pending").length;
-  const progress = total > 0 ? Math.round((completed / total) * 100) : 0;
+    metricTotal.textContent = total;
+    metricPending.textContent = pending;
+    metricCompleted.textContent = completed;
+    metricProgress.textContent = `${progress}%`;
+  }
 
-  metricTotal.textContent = total;
-  metricPending.textContent = pending;
-  metricCompleted.textContent = completed;
-  metricProgress.textContent = `${progress}%`;
-}
+  function formatStatus(status) {
+    if (status === "completed") return "status-completed";
+    if (status === "in progress") return "status-progress";
+    return "status-pending";
+  }
 
-function formatStatus(status) {
-  if (status === "completed") return "status-completed";
-  if (status === "in progress") return "status-progress";
-  return "status-pending";
-}
+  function resetForm() {
+    taskIdInput.value = "";
+    adminForm.reset();
+    cancelEditBtn.classList.add("d-none");
+  }
 
-function resetForm() {
-  taskIdInput.value = "";
-  adminForm.reset();
-  cancelEditBtn.classList.add("d-none");
-}
+  function renderTasks() {
+    tasksBody.innerHTML = tasks
+      .map((task) => {
+        return `<tr>
+          <td>${task.title}</td>
+          <td>${getUserName(task.userId)}</td>
+          <td>
+            <span class="badge-status ${formatStatus(task.status)}">
+              ${task.status}
+            </span>
+          </td>
+          <td class="text-end">
+            <button class="btn btn-sm btn-outline-primary me-2" data-action="edit" data-id="${
+              task.id
+            }">Editar</button>
+            <button class="btn btn-sm btn-outline-danger" data-action="delete" data-id="${
+              task.id
+            }">Eliminar</button>
+          </td>
+        </tr>`;
+      })
+      .join("");
 
-function renderTasks() {
-  tasksBody.innerHTML = tasks
-    .map((task) => {
-      return `<tr>
-        <td>${task.title}</td>
-        <td>${getUserName(task.userId)}</td>
-        <td>
-          <span class="badge-status ${formatStatus(task.status)}">
-            ${task.status}
-          </span>
-        </td>
-        <td class="text-end">
-          <button class="btn btn-sm btn-outline-primary me-2" data-action="edit" data-id="${
-            task.id
-          }">Editar</button>
-          <button class="btn btn-sm btn-outline-danger" data-action="delete" data-id="${
-            task.id
-          }">Eliminar</button>
-        </td>
-      </tr>`;
-    })
-    .join("");
+    emptyState.classList.toggle("d-none", tasks.length > 0);
+    renderMetrics();
+  }
 
-  emptyState.classList.toggle("d-none", tasks.length > 0);
-  renderMetrics();
-}
+  async function loadData() {
+    users = await apiGet("/users");
+    tasks = await apiGet("/tasks");
+    renderTasks();
+  }
 
-async function loadData() {
-  users = await apiGet("/users");
-  tasks = await apiGet("/tasks");
-  renderTasks();
-}
-
-adminForm.addEventListener("submit", async (event) => {
+  if (adminForm) {
+    adminForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   if (!taskIdInput.value) {
     return;
@@ -99,13 +97,17 @@ adminForm.addEventListener("submit", async (event) => {
   tasks = tasks.map((task) => (task.id === updated.id ? updated : task));
   renderTasks();
   resetForm();
-});
+    });
+  }
 
-cancelEditBtn.addEventListener("click", () => {
-  resetForm();
-});
+  if (cancelEditBtn) {
+    cancelEditBtn.addEventListener("click", () => {
+      resetForm();
+    });
+  }
 
-tasksBody.addEventListener("click", async (event) => {
+  if (tasksBody) {
+    tasksBody.addEventListener("click", async (event) => {
   const target = event.target;
   if (!(target instanceof HTMLElement)) {
     return;
@@ -139,9 +141,11 @@ tasksBody.addEventListener("click", async (event) => {
     renderTasks();
     resetForm();
   }
-});
+    });
+  }
 
-tasksBody.addEventListener("change", async (event) => {
+  if (tasksBody) {
+    tasksBody.addEventListener("change", async (event) => {
   const target = event.target;
   if (!(target instanceof HTMLSelectElement)) {
     return;
@@ -159,7 +163,9 @@ tasksBody.addEventListener("change", async (event) => {
   });
   tasks = tasks.map((item) => (item.id === updated.id ? updated : item));
   renderTasks();
-});
+    });
+  }
 
-loadData();
+  loadData();
+}
 

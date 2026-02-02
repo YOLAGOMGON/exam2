@@ -21,6 +21,14 @@ a {
   text-decoration: none;
 }
 
+.view {
+  display: none;
+}
+
+.view.active {
+  display: block;
+}
+
 .app {
   min-height: 100vh;
   display: flex;

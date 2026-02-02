@@ -15,7 +15,7 @@ Usuarios de prueba:
 - Admin: admin@crudtask.com / admin123
 - User: juan@crudtask.com / juan123
 
-Carpetas:
+Carpetas (cada carpeta tiene un unico index.html con todo):
 - 01-login: solo login
 - 02-register: login + registro
 - 03-tasks: login + registro + tareas

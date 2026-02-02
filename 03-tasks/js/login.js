@@ -7,15 +7,15 @@ if (sessionUser) {
     clearSession();
     message.textContent = "Esta carpeta es solo para usuarios";
     message.classList.remove("d-none");
-  } else {
-    redirectByRole(sessionUser);
+  } else if (typeof showView === "function") {
+    showView("tasks");
   }
 }
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value.trim();
+  const email = document.getElementById("loginEmail").value.trim();
+  const password = document.getElementById("loginPassword").value.trim();
 
   try {
     const users = await apiGet(
@@ -41,7 +41,9 @@ form.addEventListener("submit", async (event) => {
     }
 
     saveSession(users[0]);
-    redirectByRole(users[0]);
+    if (typeof showView === "function") {
+      showView("tasks");
+    }
   } catch (error) {
     message.textContent = "No se pudo conectar con la API";
     message.classList.remove("d-none");
