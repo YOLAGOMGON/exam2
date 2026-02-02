@@ -21,6 +21,9 @@
       "title": "Leer guia",
       "description": "Revisar requisitos de la app",
       "status": "pending",
+      "category": "Academico",
+      "priority": "Medium",
+      "dueDate": "2026-02-05",
       "userId": 2,
       "createdAt": "2026-02-02T08:00:00.000Z"
     },
@@ -29,6 +32,9 @@
       "title": "Maquetar login",
       "description": "Crear el formulario de acceso",
       "status": "in progress",
+      "category": "UI",
+      "priority": "High",
+      "dueDate": "2026-02-06",
       "userId": 2,
       "createdAt": "2026-02-02T08:30:00.000Z"
     },
@@ -37,6 +43,9 @@
       "title": "Revisar metricas",
       "description": "Ver totales del dashboard",
       "status": "completed",
+      "category": "Admin",
+      "priority": "Low",
+      "dueDate": "2026-02-03",
       "userId": 2,
       "createdAt": "2026-02-02T09:00:00.000Z"
     }

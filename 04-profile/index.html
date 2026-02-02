@@ -10,46 +10,53 @@
     />
     <link rel="stylesheet" href="css/styles.css" />
   </head>
-  <body class="bg-light">
-    <div class="container py-5">
-      <div class="row justify-content-center">
-        <div class="col-md-5">
-          <div class="card shadow-sm border-0">
-            <div class="card-body p-4">
-              <h1 class="h4 text-center mb-2">CRUDTASK</h1>
-              <p class="text-center text-muted mb-4">Inicia sesion</p>
-              <form id="loginForm">
-                <div class="mb-3">
-                  <label class="form-label">Correo</label>
-                  <input
-                    type="email"
-                    class="form-control"
-                    id="email"
-                    required
-                  />
-                </div>
-                <div class="mb-3">
-                  <label class="form-label">Contrasena</label>
-                  <input
-                    type="password"
-                    class="form-control"
-                    id="password"
-                    required
-                  />
-                </div>
-                <button class="btn btn-primary w-100" type="submit">
-                  Entrar
-                </button>
-              </form>
-              <div class="text-center mt-3">
-                <a href="register.html" class="text-decoration-none">
-                  Crear cuenta nueva
-                </a>
-              </div>
-              <div id="loginMessage" class="alert alert-info mt-3 d-none"></div>
-            </div>
+  <body>
+    <div class="auth-wrapper">
+      <div class="card auth-card">
+        <div class="text-center mb-4">
+          <div class="brand justify-content-center">
+            <span class="brand-icon"></span>
+            <span>CRUDZASO</span>
           </div>
         </div>
+        <h1 class="auth-title text-center mb-1">Welcome back</h1>
+        <p class="auth-subtitle text-center mb-4">
+          Enter your credentials to access the platform
+        </p>
+        <form id="loginForm">
+          <div class="mb-3">
+            <label class="form-label">Email or username</label>
+            <input
+              type="email"
+              class="form-control"
+              id="email"
+              placeholder="student@university.edu"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Password</label>
+            <input
+              type="password"
+              class="form-control"
+              id="password"
+              placeholder="••••••••"
+              required
+            />
+          </div>
+          <div class="text-end mb-3">
+            <a href="#" class="text-primary small">Forgot password?</a>
+          </div>
+          <button class="btn btn-primary w-100 btn-pill" type="submit">
+            Sign in
+          </button>
+        </form>
+        <div class="text-center mt-3">
+          <a href="register.html" class="text-primary fw-semibold">
+            Register
+          </a>
+        </div>
+        <div id="loginMessage" class="alert alert-info mt-3 d-none"></div>
       </div>
     </div>
     <script src="js/api.js"></script>

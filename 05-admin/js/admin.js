@@ -28,16 +28,21 @@ function getUserName(userId) {
 }
 
 function renderMetrics() {
-  metricTotal.textContent = tasks.length;
-  metricPending.textContent = tasks.filter(
-    (task) => task.status === "pending"
-  ).length;
-  metricProgress.textContent = tasks.filter(
-    (task) => task.status === "in progress"
-  ).length;
-  metricCompleted.textContent = tasks.filter(
-    (task) => task.status === "completed"
-  ).length;
+  const total = tasks.length;
+  const completed = tasks.filter((task) => task.status === "completed").length;
+  const pending = tasks.filter((task) => task.status === "pending").length;
+  const progress = total > 0 ? Math.round((completed / total) * 100) : 0;
+
+  metricTotal.textContent = total;
+  metricPending.textContent = pending;
+  metricCompleted.textContent = completed;
+  metricProgress.textContent = `${progress}%`;
+}
+
+function formatStatus(status) {
+  if (status === "completed") return "status-completed";
+  if (status === "in progress") return "status-progress";
+  return "status-pending";
 }
 
 function resetForm() {
@@ -53,19 +58,9 @@ function renderTasks() {
         <td>${task.title}</td>
         <td>${getUserName(task.userId)}</td>
         <td>
-          <select class="form-select form-select-sm status-select" data-id="${
-            task.id
-          }">
-            <option value="pending" ${
-              task.status === "pending" ? "selected" : ""
-            }>pending</option>
-            <option value="in progress" ${
-              task.status === "in progress" ? "selected" : ""
-            }>in progress</option>
-            <option value="completed" ${
-              task.status === "completed" ? "selected" : ""
-            }>completed</option>
-          </select>
+          <span class="badge-status ${formatStatus(task.status)}">
+            ${task.status}
+          </span>
         </td>
         <td class="text-end">
           <button class="btn btn-sm btn-outline-primary me-2" data-action="edit" data-id="${
