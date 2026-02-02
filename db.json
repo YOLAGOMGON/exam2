@@ -1,0 +1,45 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Admin",
+      "email": "admin@crudtask.com",
+      "password": "admin123",
+      "role": "admin"
+    },
+    {
+      "id": 2,
+      "name": "Juan",
+      "email": "juan@crudtask.com",
+      "password": "juan123",
+      "role": "user"
+    }
+  ],
+  "tasks": [
+    {
+      "id": 1,
+      "title": "Leer guia",
+      "description": "Revisar requisitos de la app",
+      "status": "pending",
+      "userId": 2,
+      "createdAt": "2026-02-02T08:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "title": "Maquetar login",
+      "description": "Crear el formulario de acceso",
+      "status": "in progress",
+      "userId": 2,
+      "createdAt": "2026-02-02T08:30:00.000Z"
+    },
+    {
+      "id": 3,
+      "title": "Revisar metricas",
+      "description": "Ver totales del dashboard",
+      "status": "completed",
+      "userId": 2,
+      "createdAt": "2026-02-02T09:00:00.000Z"
+    }
+  ]
+}
+
